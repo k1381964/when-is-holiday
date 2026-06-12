@@ -10,7 +10,7 @@ export function SiteHeader() {
           <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-primary to-primary/70 text-primary-foreground">
             <CalendarDays className="h-5 w-5" />
           </span>
-          <span className="hidden sm:inline">Bank Holiday Finder</span>
+          <span className="hidden sm:inline">India Bank Holidays</span>
         </Link>
         <nav className="flex items-center gap-1 text-sm font-medium">
           <Link

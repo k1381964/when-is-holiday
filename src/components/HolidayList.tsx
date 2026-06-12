@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { ArrowUpDown, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import type { Holiday } from "@/lib/holidays";
 
 function dow(d: string) {
@@ -18,10 +19,10 @@ export function HolidayList({ holidays }: { holidays: Holiday[] }) {
   const [asc, setAsc] = useState(true);
 
   const rows = useMemo(() => {
-    const filtered = holidays.filter(
-      (h) =>
-        h.localName.toLowerCase().includes(q.toLowerCase()) ||
-        h.name.toLowerCase().includes(q.toLowerCase())
+    const needle = q.toLowerCase();
+    const filtered = holidays.filter((h) =>
+      h.name.toLowerCase().includes(needle) ||
+      h.description.toLowerCase().includes(needle)
     );
     return filtered.sort((a, b) =>
       asc ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)
@@ -64,17 +65,16 @@ export function HolidayList({ holidays }: { holidays: Holiday[] }) {
               </tr>
             )}
             {rows.map((h) => (
-              <tr key={h.date + h.name} className="border-t border-border transition-colors hover:bg-muted/30">
+              <tr key={h.date + h.name} className="border-t border-border transition-colors hover:bg-muted/30 align-top">
                 <td className="whitespace-nowrap px-4 py-3 font-medium">{fmt(h.date)}</td>
                 <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">{dow(h.date)}</td>
                 <td className="px-4 py-3">
-                  <div className="font-medium">{h.localName}</div>
-                  {h.name !== h.localName && (
-                    <div className="text-xs text-muted-foreground">{h.name}</div>
-                  )}
+                  <div className="font-medium">{h.name}</div>
+                  <div className="text-xs text-muted-foreground">{h.description}</div>
+                  <Badge variant="outline" className="mt-1.5 text-[10px] capitalize">{h.type.replace("-", " ")}</Badge>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">
-                  {h.global ? "Nationwide" : h.counties?.join(", ") ?? "—"}
+                <td className="px-4 py-3 text-xs text-muted-foreground max-w-xs">
+                  {h.states === "all" ? "All India" : h.states.join(", ")}
                 </td>
               </tr>
             ))}

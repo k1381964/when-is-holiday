@@ -23,7 +23,7 @@ export function UpcomingHolidays({ holidays }: { holidays: Holiday[] }) {
           <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-primary">
             <CalendarClock className="h-4 w-4" /> Next Holiday
           </div>
-          <h3 className="mt-2 text-2xl font-bold">{next.localName}</h3>
+          <h3 className="mt-2 text-2xl font-bold">{next.name}</h3>
           <p className="text-sm text-muted-foreground">{formatDate(next.date)}</p>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-5xl font-extrabold tabular-nums text-primary">
@@ -48,7 +48,7 @@ export function UpcomingHolidays({ holidays }: { holidays: Holiday[] }) {
           {upcoming.map((h) => (
             <li key={h.date + h.name} className="flex items-center justify-between px-4 py-3 text-sm">
               <div className="min-w-0">
-                <div className="truncate font-medium">{h.localName}</div>
+                <div className="truncate font-medium">{h.name}</div>
                 <div className="text-xs text-muted-foreground">{formatDate(h.date)}</div>
               </div>
               <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
