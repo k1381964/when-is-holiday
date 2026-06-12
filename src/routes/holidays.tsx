@@ -122,31 +122,15 @@ function HolidaysPage() {
               <TabsTrigger value="calendar">Calendar</TabsTrigger>
             </TabsList>
             <TabsContent value="list" className="mt-4">
-              {holidays.isLoading ? (
-                <Skeleton className="h-96 w-full rounded-xl" />
-              ) : holidays.isError ? (
-                <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-6 text-sm text-destructive">
-                  Failed to load holidays. Please try a different country or try again.
-                </div>
-              ) : (
-                <HolidayList holidays={filtered} />
-              )}
+              <HolidayList holidays={filtered} />
             </TabsContent>
             <TabsContent value="calendar" className="mt-4">
-              {holidays.isLoading ? (
-                <Skeleton className="h-96 w-full rounded-xl" />
-              ) : (
-                <HolidayCalendar year={year} holidays={filtered} />
-              )}
+              <HolidayCalendar year={year} holidays={filtered} />
             </TabsContent>
           </Tabs>
         </div>
         <aside className="min-w-0">
-          {holidays.isLoading ? (
-            <Skeleton className="h-80 w-full rounded-xl" />
-          ) : (
-            <UpcomingHolidays holidays={filtered} />
-          )}
+          <UpcomingHolidays holidays={filtered} />
         </aside>
       </section>
     </SiteLayout>
