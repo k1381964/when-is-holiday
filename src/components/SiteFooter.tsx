@@ -5,9 +5,9 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-border bg-muted/30">
       <div className="container mx-auto grid gap-8 px-4 py-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
-          <h3 className="text-sm font-semibold">Bank Holiday Finder</h3>
+          <h3 className="text-sm font-semibold">India Bank Holidays</h3>
           <p className="mt-2 text-sm text-muted-foreground">
-            Quickly find official bank holidays around the world.
+            Quickly check RBI and state-wise bank holidays across India.
           </p>
         </div>
         <div>
@@ -32,7 +32,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-border py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Bank Holiday Finder. Data from Nager.Date.
+        © {new Date().getFullYear()} India Bank Holidays. Curated from RBI &amp; Govt. of India holiday calendars. Always reconfirm with your bank.
       </div>
     </footer>
   );
