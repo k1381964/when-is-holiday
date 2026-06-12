@@ -76,7 +76,7 @@ export function HolidayCalendar({ year, holidays, onSelect }: Props) {
                   : "text-muted-foreground hover:bg-accent",
                 isToday && "ring-2 ring-primary"
               )}
-              title={hs?.map((h) => h.localName).join(", ")}
+              title={hs?.map((h) => h.name).join(", ")}
             >
               <span>{d}</span>
               {hs && (
