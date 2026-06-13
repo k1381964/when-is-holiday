@@ -117,21 +117,13 @@ export function isSunday(d: Date): boolean {
   return d.getDay() === 0;
 }
 
-/** Generate all Sundays + 2nd/4th Saturdays for a given year. */
+/** Generate all 2nd & 4th Saturdays (RBI bank holidays) for a given year. */
 export function generateWeeklyOffs(year: number): Holiday[] {
   const out: Holiday[] = [];
   const start = new Date(year, 0, 1);
   const end = new Date(year, 11, 31);
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-    if (isSunday(d)) {
-      out.push({
-        date: toISODate(d),
-        name: "Sunday (Weekly Off)",
-        description: "All banks across India remain closed on Sundays.",
-        type: "weekly-off",
-        states: "all",
-      });
-    } else if (isRbiSaturdayHoliday(d)) {
+    if (isRbiSaturdayHoliday(d)) {
       const n = saturdayOfMonth(d);
       out.push({
         date: toISODate(d),
