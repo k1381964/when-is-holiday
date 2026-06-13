@@ -29,12 +29,11 @@ function HolidaysPage() {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
   const [state, setState] = useState<string>("all");
-  const [satOnly, setSatOnly] = useState(false);
-  const [includeWeekly, setIncludeWeekly] = useState(true);
+  const [showRbiSat, setShowRbiSat] = useState(true);
 
   const all: Holiday[] = useMemo(
-    () => getHolidaysForYear(year, includeWeekly),
-    [year, includeWeekly]
+    () => getHolidaysForYear(year, showRbiSat),
+    [year, showRbiSat]
   );
 
   const filtered = useMemo(() => {
@@ -44,11 +43,8 @@ function HolidaysPage() {
         (h) => h.states === "all" || (Array.isArray(h.states) && h.states.includes(state))
       );
     }
-    if (satOnly) {
-      list = list.filter((h) => h.type === "rbi-saturday");
-    }
     return list;
-  }, [all, state, satOnly]);
+  }, [all, state]);
 
   const years: number[] = [];
   for (let y = currentYear - 1; y <= currentYear + 1; y++) years.push(y);
@@ -99,15 +95,14 @@ function HolidaysPage() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex flex-col justify-end gap-2 rounded-md border border-dashed border-border p-3">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="sat-only" className="text-xs font-medium">2nd & 4th Sat only</Label>
-                <Switch id="sat-only" checked={satOnly} onCheckedChange={setSatOnly} />
+            <div className="flex flex-col justify-end gap-1 rounded-md border border-dashed border-border p-3">
+              <div className="flex items-center justify-between gap-2">
+                <Label htmlFor="rbi-sat" className="text-xs font-medium">Show 2nd & 4th Saturdays</Label>
+                <Switch id="rbi-sat" checked={showRbiSat} onCheckedChange={setShowRbiSat} />
               </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="weekly" className="text-xs font-medium">Include weekly offs</Label>
-                <Switch id="weekly" checked={includeWeekly} onCheckedChange={setIncludeWeekly} />
-              </div>
+              <p className="text-[10px] leading-snug text-muted-foreground">
+                RBI bank holidays. Turn off to hide them from the list.
+              </p>
             </div>
           </div>
         </div>
