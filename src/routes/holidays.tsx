@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { SiteLayout } from "@/components/SiteLayout";
 import { HolidayCalendar } from "@/components/HolidayCalendar";
 import { HolidayList } from "@/components/HolidayList";
-import { UpcomingHolidays } from "@/components/UpcomingHolidays";
 import { DateChecker } from "@/components/DateChecker";
 import { getHolidaysForYear, INDIA_STATES, type Holiday } from "@/lib/holidays";
 
@@ -114,24 +113,19 @@ function HolidaysPage() {
         </div>
       </section>
 
-      <section className="container mx-auto grid gap-6 px-4 py-8 lg:grid-cols-[1fr_340px]">
-        <div className="min-w-0">
-          <Tabs defaultValue="list">
-            <TabsList>
-              <TabsTrigger value="list">List</TabsTrigger>
-              <TabsTrigger value="calendar">Calendar</TabsTrigger>
-            </TabsList>
-            <TabsContent value="list" className="mt-4">
-              <HolidayList holidays={filtered} />
-            </TabsContent>
-            <TabsContent value="calendar" className="mt-4">
-              <HolidayCalendar year={year} holidays={filtered} />
-            </TabsContent>
-          </Tabs>
-        </div>
-        <aside className="min-w-0">
-          <UpcomingHolidays holidays={filtered} />
-        </aside>
+      <section className="container mx-auto px-4 py-8">
+        <Tabs defaultValue="list">
+          <TabsList>
+            <TabsTrigger value="list">List</TabsTrigger>
+            <TabsTrigger value="calendar">Calendar</TabsTrigger>
+          </TabsList>
+          <TabsContent value="list" className="mt-4">
+            <HolidayList holidays={filtered} />
+          </TabsContent>
+          <TabsContent value="calendar" className="mt-4">
+            <HolidayCalendar year={year} holidays={filtered} />
+          </TabsContent>
+        </Tabs>
       </section>
     </SiteLayout>
   );
