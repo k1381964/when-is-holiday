@@ -4,7 +4,8 @@ import { ArrowRight, CalendarDays, CalendarCheck2, Clock, MapPin, Zap, Info } fr
 import { SiteLayout } from "@/components/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { DateChecker } from "@/components/DateChecker";
-import { getSaturdayHolidays, parseDate } from "@/lib/holidays";
+import { getHolidaysForYear, parseDate } from "@/lib/holidays";
+import { UpcomingHolidays } from "@/components/UpcomingHolidays";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,9 +21,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const year = new Date().getFullYear();
-  const upcomingSats = getSaturdayHolidays(year)
-    .filter((s) => parseDate(s.date) >= new Date(new Date().setHours(0, 0, 0, 0)))
-    .slice(0, 4);
+  const allHolidays = [
+    ...getHolidaysForYear(year, true),
+    ...getHolidaysForYear(year + 1, true),
+  ];
 
   return (
     <SiteLayout>
@@ -138,46 +140,8 @@ function Index() {
       {/* UPCOMING + RULES */}
       <section className="border-t border-border/50">
         <div className="container mx-auto grid gap-6 px-4 py-20 lg:grid-cols-2">
-          {/* Upcoming */}
-          <div className="rounded-3xl border border-border/70 bg-card/60 p-6 shadow-sm backdrop-blur-xl">
-            <div className="flex items-center justify-between">
-              <h3 className="flex items-center gap-2 text-sm font-bold">
-                <span className="h-4 w-1 rounded-full bg-brand-saffron" />
-                Upcoming RBI Saturday Holidays
-              </h3>
-              <span className="font-mono text-[10px] tracking-tight text-muted-foreground">
-                {year}-CAL-02
-              </span>
-            </div>
-            <ul className="mt-5 space-y-2">
-              {upcomingSats.length === 0 && (
-                <li className="rounded-xl border border-border/60 bg-muted/20 p-4 text-sm text-muted-foreground">
-                  No upcoming Saturday holidays this year.
-                </li>
-              )}
-              {upcomingSats.map((h) => (
-                <li
-                  key={h.date}
-                  className="flex items-center justify-between rounded-xl border border-border/50 bg-background/40 p-4 transition-colors hover:border-brand-saffron/40"
-                >
-                  <div>
-                    <div className="text-sm font-bold">{h.name}</div>
-                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-                      {parseDate(h.date).toLocaleDateString("en-IN", { weekday: "long" })}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-bold text-brand-saffron">
-                      {parseDate(h.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
-                    </div>
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-brand-emerald">
-                      Closed
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Upcoming holidays widget */}
+          <UpcomingHolidays holidays={allHolidays} />
 
           {/* Rules */}
           <div
