@@ -4,7 +4,7 @@ import { ArrowRight, CalendarDays, CalendarCheck2, Clock, MapPin, Zap, Info } fr
 import { SiteLayout } from "@/components/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { DateChecker } from "@/components/DateChecker";
-import { getHolidaysForYear, parseDate } from "@/lib/holidays";
+import { getHolidaysForYear } from "@/lib/holidays";
 import { UpcomingHolidays } from "@/components/UpcomingHolidays";
 
 export const Route = createFileRoute("/")({
