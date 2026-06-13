@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { CalendarCheck2, CheckCircle2, XCircle, MapPin } from "lucide-react";
+import { CalendarCheck2, CheckCircle2, XCircle, MapPin, CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { checkDate, parseDate, type HolidayCheckResult } from "@/lib/holidays";
 
 interface Props {
@@ -16,24 +19,25 @@ function fmt(dateStr: string) {
 }
 
 export function DateChecker({ state }: Props) {
-  const today = new Date().toISOString().slice(0, 10);
-  const [date, setDate] = useState<string>(today);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [open, setOpen] = useState(false);
   const [result, setResult] = useState<HolidayCheckResult | null>(null);
 
   const onCheck = () => {
     if (!date) return;
-    setResult(checkDate(date, state && state !== "all" ? state : undefined));
+    const iso = format(date, "yyyy-MM-dd");
+    setResult(checkDate(iso, state && state !== "all" ? state : undefined));
   };
 
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
-      <div className="flex items-center gap-2">
-        <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
+      <div className="flex items-center gap-3">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
           <CalendarCheck2 className="h-5 w-5" />
         </span>
-        <div>
+        <div className="min-w-0">
           <h2 className="text-base font-semibold leading-tight">Check a date</h2>
-          <p className="text-xs text-muted-foreground">
+          <p className="mt-0.5 text-xs text-muted-foreground">
             Pick any date and see if banks are open in India
             {state && state !== "all" ? ` (${state})` : ""}.
           </p>
@@ -41,20 +45,40 @@ export function DateChecker({ state }: Props) {
       </div>
 
       <form
-        className="mt-4 flex flex-col gap-2 sm:flex-row"
+        className="mt-5 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center"
         onSubmit={(e) => {
           e.preventDefault();
           onCheck();
         }}
       >
-        <Input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="sm:max-w-xs"
-          aria-label="Select date to check"
-        />
-        <Button type="submit" className="shrink-0">Check</Button>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              className={cn(
+                "h-11 flex-1 justify-start text-left font-normal sm:max-w-xs",
+                !date && "text-muted-foreground",
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={(d) => {
+                setDate(d);
+                setOpen(false);
+              }}
+              initialFocus
+              className={cn("p-3 pointer-events-auto")}
+            />
+          </PopoverContent>
+        </Popover>
+        <Button type="submit" className="h-11 shrink-0 sm:w-32">Check</Button>
       </form>
 
       {result && (
