@@ -80,11 +80,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Bank Holiday Finder — Find Bank Holidays Instantly" },
       { name: "description", content: "Search and track bank holidays by country, state, and year in one place." },
       { name: "author", content: "Bank Holiday Finder" },
-      { property: "og:title", content: "Bank Holiday Finder" },
-      { property: "og:description", content: "Search and track bank holidays by country, state, and year." },
+      { property: "og:title", content: "Bank Holiday Finder — Find Bank Holidays Instantly" },
+      { property: "og:description", content: "Search and track bank holidays by country, state, and year in one place." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Bank Holiday Finder — Find Bank Holidays Instantly" },
+      { name: "twitter:description", content: "Search and track bank holidays by country, state, and year in one place." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/0dda75c8-5af1-4a82-898e-b88ad6d1e19e" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/0dda75c8-5af1-4a82-898e-b88ad6d1e19e" },
     ],
     links: [
       {
